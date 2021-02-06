@@ -19,6 +19,8 @@ struct ShellOptions {
 	bool force_fullscreen;
 	bool force_windowed;
 
+	bool exit_on_quit;
+
 	bool skip_intro;
 	bool editor;
 
