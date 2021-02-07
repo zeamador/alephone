@@ -376,11 +376,11 @@ void mark_weapon_collections(
 	{
 		struct weapon_definition *definition= get_weapon_definition(index);
 		
-		/* Mark the weaponÕs collection */	
+		/* Mark the weaponâ€™s collection */
 		loading ? mark_collection_for_loading(definition->collection) : 
 			mark_collection_for_unloading(definition->collection);
 
-		/* Mark the projectileÕs collection, NONE is handled correctly */
+		/* Mark the projectileâ€™s collection, NONE is handled correctly */
 		if(index != _weapon_ball)
 		{
 			mark_projectile_collections(definition->weapons_by_trigger[_primary_weapon].projectile_type, loading);
@@ -2185,7 +2185,7 @@ static bool check_reload(
 							} else {
 								if(which_trigger==_primary_weapon)
 								{
-									/* ¥¥ÊProblems? */
+									/* â€¢â€¢Â Problems? */
 									struct trigger_data *other_trigger= 
 										get_player_trigger_data(player_index, !which_trigger);
 										

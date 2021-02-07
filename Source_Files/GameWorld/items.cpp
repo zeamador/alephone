@@ -557,7 +557,7 @@ bool try_and_add_player_item(
 
 	switch (definition->item_kind)
 	{
-		case _powerup: /* powerups donÕt get added to your inventory */
+		case _powerup: /* powerups donâ€™t get added to your inventory */
 			if (legal_player_powerup(player_index, type))
 			{
 				process_player_powerup(player_index, type);

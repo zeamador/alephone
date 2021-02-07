@@ -176,7 +176,7 @@ projectile_definition *get_projectile_definition(
 	return definition;
 }
 
-/* false means donÕt fire this (itÕs in a floor or ceiling or outside of the map), otherwise
+/* false means donâ€™t fire this (itâ€™s in a floor or ceiling or outside of the map), otherwise
 	the monster that was intersected first (or NONE) is returned in target_index */
 bool preflight_projectile(
 	world_point3d *origin,
@@ -247,7 +247,7 @@ short new_projectile(
 	world_point3d *origin,
 	short polygon_index,
 	world_point3d *_vector,
-	angle delta_theta, /* ±¶theta is added (in a circle) to the angle before firing */
+	angle delta_theta, /* Â±âˆ‚theta is added (in a circle) to the angle before firing */
 	short type,
 	short owner_index,
 	short owner_type,
@@ -318,7 +318,7 @@ short new_projectile(
 
 extern void track_contrail_interpolation(int16_t, int16_t);
 
-/* assumes ¶t==1 tick */
+/* assumes âˆ‚t==1 tick */
 void move_projectiles(
 	void)
 {
@@ -341,10 +341,10 @@ void move_projectiles(
 				
 				new_location= old_location= object->location;
 	
-				/* update our objectÕs animation */
+				/* update our objectâ€™s animation */
 				animate_object(projectile->object_index);
 				
-				/* if weÕre supposed to end when our animation loops, check this condition */
+				/* if weâ€™re supposed to end when our animation loops, check this condition */
 				if ((definition->flags&_stop_when_animation_loops) && (GET_OBJECT_ANIMATION_FLAGS(object)&_obj_last_frame_animated))
 				{
 					remove_projectile(projectile_index);
@@ -372,7 +372,7 @@ void move_projectiles(
 
 					if (PROJECTILE_HAS_CROSSED_MEDIA_BOUNDARY(projectile)) adjusted_definition_flags= _penetrates_media;
 					
-					/* move the projectile and check for collisions; if we didnÕt detonate move the
+					/* move the projectile and check for collisions; if we didnâ€™t detonate move the
 						projectile and check to see if we need to leave a contrail */
 					if ((definition->flags&_affected_by_half_gravity) && (dynamic_world->tick_count&1)) projectile->gravity-= GRAVITATIONAL_ACCELERATION;
 					if (definition->flags&_affected_by_gravity) projectile->gravity-= GRAVITATIONAL_ACCELERATION;
@@ -525,7 +525,7 @@ void move_projectiles(
 											reassign_projectile = MONSTER_IS_PLAYER(monster) || !MONSTER_IS_DYING(monster);
 										}
 										if (reassign_projectile)
-											projectile->owner_index= monster_obstruction_index; /* keep going, but donÕt hit this target again */
+											projectile->owner_index= monster_obstruction_index; /* keep going, but donâ€™t hit this target again */
 									}
 									// LP addition: don't remove a projectile that will hit media and continue (PMB flag)
 									else if (!will_go_through)
@@ -650,7 +650,7 @@ void mark_projectile_collections(
 			loading ? mark_collection_for_loading(definition->collection) : mark_collection_for_unloading(definition->collection);
 		}
 		
-		/* mark the projectileÕs effectÕs collection */
+		/* mark the projectileâ€™s effectâ€™s collection */
 		mark_effect_collections(definition->detonation_effect, loading);
 		mark_effect_collections(definition->contrail_effect, loading);
 	}
@@ -720,7 +720,7 @@ static short adjust_projectile_type(
 #define MAXIMUM_GUIDED_DELTA_YAW 8
 #define MAXIMUM_GUIDED_DELTA_PITCH 6
 
-/* changes are at a rate of ±1 angular unit per tick */
+/* changes are at a rate of Â±1 angular unit per tick */
 static void update_guided_projectile(
 	short projectile_index)
 {
@@ -739,7 +739,7 @@ static void update_guided_projectile(
 	{
 		case _xfer_invisibility:
 		case _xfer_subtle_invisibility:
-			/* canÕt hold lock on invisible targets unless on _total_carnage_level */
+			/* canâ€™t hold lock on invisible targets unless on _total_carnage_level */
 			if (dynamic_world->game_information.difficulty_level!=_total_carnage_level) break;
 		default:
 		{
@@ -811,7 +811,7 @@ uint16 translate_projectile(
 			traveled_underneath = (definition->flags&_penetrates_media_boundary) && (old_location->z <= media_height);
 		}
 		
-		/* add this polygonÕs monsters to our non-redundant list of possible intersections */
+		/* add this polygonâ€™s monsters to our non-redundant list of possible intersections */
 		possible_intersecting_monsters(&IntersectedObjects, GLOBAL_INTERSECTING_MONSTER_BUFFER_SIZE, old_polygon_index, true);
 		intersected_object_count = IntersectedObjects.size();
 		
@@ -900,7 +900,7 @@ uint16 translate_projectile(
 		}
 		else
 		{
-			/* make sure we didnÕt hit the ceiling or floor in this polygon */
+			/* make sure we didnâ€™t hit the ceiling or floor in this polygon */
 			// LP change: if PMB is set, then a projectile can travel as if the liquid did not exist,
 			// but it will be able to run into a media surface.
 			// Here, test for whether the projectile is above the floor or the media surface;
@@ -910,7 +910,7 @@ uint16 translate_projectile(
 				// If PMB was set, check to see if the projectile hit the media surface.
 				if ((!traveled_underneath || new_location->z<media_height) && new_location->z<old_polygon->ceiling_height)
 				{
-					/* weÕre staying in this polygon and weÕre finally done screwing around;
+					/* weâ€™re staying in this polygon and weâ€™re finally done screwing around;
 						the caller can look in *new_polygon_index to find out where we ended up */
 				}
 				else
@@ -934,7 +934,7 @@ uint16 translate_projectile(
 	}
 	while (line_index!=NONE&&contact==_hit_nothing);
 	
-	/* ceilings and floor intersections still donÕt have accurate intersection points, so calculate
+	/* ceilings and floor intersections still donâ€™t have accurate intersection points, so calculate
 		them */
 	if (contact!=_hit_nothing)
 	{
@@ -974,7 +974,7 @@ uint16 translate_projectile(
 				(world_point2d *)old_location, (world_point2d *)new_location);
 			world_distance radius, height;
 				
-			if (object->permutation!=owner_index) /* donÕt hit ourselves */
+			if (object->permutation!=owner_index) /* donâ€™t hit ourselves */
 			{
 				int32 radius_squared;
 				
@@ -988,7 +988,7 @@ uint16 translate_projectile(
 				}
 				radius_squared= (radius+definition->radius)*(radius+definition->radius);
 				
-				if (separation<radius_squared) /* if weÕre within radius^2 we passed through this monster */
+				if (separation<radius_squared) /* if weâ€™re within radius^2 we passed through this monster */
 				{
 					world_distance distance= distance2d((world_point2d *)old_location, (world_point2d *)&object->location);
 					world_distance projectile_z= distance_traveled ? 
@@ -1018,7 +1018,7 @@ uint16 translate_projectile(
 				}
 				else
 				{
-					if (GET_OBJECT_OWNER(object)==_object_is_monster && separation<12*radius_squared) /* if weÕre within (x*radius)^2 we passed near this monster */
+					if (GET_OBJECT_OWNER(object)==_object_is_monster && separation<12*radius_squared) /* if weâ€™re within (x*radius)^2 we passed near this monster */
 					{
 						if (MONSTER_IS_PLAYER(get_monster_data(object->permutation)) && 
 							monster_index_to_player_index(object->permutation)==current_player_index)

@@ -354,7 +354,7 @@ void SoundManager::PlaySound(short sound_index,
 			     short identifier, // NONE is no identifer and the sound is immediately orphaned
 			     _fixed pitch) // on top of all existing pitch modifiers
 {
-	/* donÕt do anything if weÕre not initialized or active, or our sound_code is NONE,
+	/* donâ€™t do anything if weâ€™re not initialized or active, or our sound_code is NONE,
 		or our volume is zero, our we have no sound channels */
 	if (sound_index!=NONE && active && parameters.volume_db > MINIMUM_VOLUME_DB && total_channel_count > 0)
 	{
@@ -384,7 +384,7 @@ void SoundManager::PlaySound(short sound_index,
 				/* start the sound playing */
 				BufferSound(*channel, sound_index, pitch);
 
-				/* if we have a valid source, copy it, otherwise remember that we donÕt */
+				/* if we have a valid source, copy it, otherwise remember that we donâ€™t */
 				if (source)
 				{
 					channel->source= *source;
@@ -400,7 +400,7 @@ void SoundManager::PlaySound(short sound_index,
 				
 void SoundManager::DirectPlaySound(short sound_index, angle direction, short volume, _fixed pitch)
 {
-	/* donÕt do anything if weÕre not initialized or active, or our sound_code is NONE,
+	/* donâ€™t do anything if weâ€™re not initialized or active, or our sound_code is NONE,
 	   or our volume is zero, our we have no sound channels */
 
 	if (sound_index != NONE && active && parameters.volume_db > MINIMUM_VOLUME_DB && total_channel_count > 0)
@@ -880,9 +880,9 @@ SoundManager::Channel *SoundManager::BestChannel(short sound_index, Channel::Var
 						}
 					}
 					
-					/* if we havenÕt found an alternative channel or this channel is at a lower
-					   volume than our previously best channel (which isnÕt an unused channel),
-					   then weÕve found a new best channel */
+					/* if we havenâ€™t found an alternative channel or this channel is at a lower
+					   volume than our previously best channel (which isnâ€™t an unused channel),
+					   then weâ€™ve found a new best channel */
 					if (!best_channel ||
 					    (SLOT_IS_USED(best_channel) && best_channel->variables.volume > channel->variables.volume) ||
 					    (SLOT_IS_USED(best_channel) && best_channel->variables.priority < channel->variables.priority))
@@ -894,7 +894,7 @@ SoundManager::Channel *SoundManager::BestChannel(short sound_index, Channel::Var
 				{
 					if (channel->sound_index == sound_index && !(definition->flags & _sound_does_not_self_abort))
 					{
-						/* if weÕre already playing this sound at a higher volume, donÕt abort it */
+						/* if weâ€™re already playing this sound at a higher volume, donâ€™t abort it */
 						best_channel = 0;
 						break;
 					}
@@ -903,7 +903,7 @@ SoundManager::Channel *SoundManager::BestChannel(short sound_index, Channel::Var
 			}
 			else
 			{
-				/* unused channel (we wonÕt get much better than this!) */
+				/* unused channel (we wonâ€™t get much better than this!) */
 				if (SLOT_IS_USED(channel))
 					FreeChannel(*channel);
 				best_channel = channel;

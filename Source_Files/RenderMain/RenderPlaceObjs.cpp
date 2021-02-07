@@ -519,7 +519,7 @@ void RenderPlaceObjsClass::sort_render_object_into_tree(
 		}
 	}
 
-	/* find the node weÕd like to be in (that is, the node closest to the viewer of all the nodes
+	/* find the node weâ€™d like to be in (that is, the node closest to the viewer of all the nodes
 		we cross and therefore the latest one in the sorted node list) */
 	desired_node= base_nodes[0];
 	for (i= 1; i<base_node_count; ++i) if (base_nodes[i]>desired_node) desired_node= base_nodes[i];
@@ -549,7 +549,7 @@ void RenderPlaceObjsClass::sort_render_object_into_tree(
 		}
 	}
 	
-	/* update the .node fields of all the objects weÕre about to add to reflect their new
+	/* update the .node fields of all the objects weâ€™re about to add to reflect their new
 		location in the sorted node list */
 	for (render_object= new_render_object; render_object; render_object= render_object->next_object)
 	{
@@ -602,8 +602,8 @@ enum /* build_base_node_list() states */
 };
 
 /* we once thought it would be a clever idea to use the transformed endpoints, but, not.  we
-	now bail if we canÕt find a way out of the polygon we are given; usually this happens
-	when weÕre moving along gridlines */
+	now bail if we canâ€™t find a way out of the polygon we are given; usually this happens
+	when weâ€™re moving along gridlines */
 short RenderPlaceObjsClass::build_base_node_list(
 	short origin_polygon_index,
 	world_point3d *origin,
@@ -652,7 +652,7 @@ short RenderPlaceObjsClass::build_base_node_list(
 		do
 		{
 			polygon_data *polygon= get_polygon_data(polygon_index);
-			short state= _looking_for_first_nonzero_vertex; /* really: testing first vertex state (we donÕt have zero vertices) */
+			short state= _looking_for_first_nonzero_vertex; /* really: testing first vertex state (we donâ€™t have zero vertices) */
 			short vertex_index= 0, vertex_delta= 1; /* start searching clockwise from vertex zero */
 			world_point2d *vertex, *next_vertex;
 			
@@ -700,7 +700,7 @@ short RenderPlaceObjsClass::build_base_node_list(
 				/* adjust vertex_index (clockwise or counterclockwise, depending on vertex_delta) */
 				vertex_index= (vertex_delta<0) ? WRAP_LOW(vertex_index, polygon->vertex_count-1) :
 					WRAP_HIGH(vertex_index, polygon->vertex_count-1);
-				if (state!=NONE&&!vertex_index) polygon_index= state= NONE; /* we canÕt find a way out; give up */
+				if (state!=NONE&&!vertex_index) polygon_index= state= NONE; /* we canâ€™t find a way out; give up */
 			}
 			while (state!=NONE);
 			
@@ -708,19 +708,19 @@ short RenderPlaceObjsClass::build_base_node_list(
 			{
 				polygon= get_polygon_data(polygon_index);
 				
-				/* canÕt do above clipping (see note in change history) */
+				/* canâ€™t do above clipping (see note in change history) */
 				if ((view->origin.z<origin->z && polygon->floor_height<origin_polygon_floor_height) ||
 					(view->origin.z>origin->z && origin->z+WORLD_ONE_HALF<polygon->floor_height && polygon->floor_height>origin_polygon_floor_height))
 				{
-					/* if weÕre above the viewer and going into a lower polygon or below the viewer and going
-						into a higher polygon, donÕt */
+					/* if weâ€™re above the viewer and going into a lower polygon or below the viewer and going
+						into a higher polygon, donâ€™t */
 //					dprintf("discarding polygon #%d by height", polygon_index);
 					polygon_index= NONE;
 				}
 				else
 				{
 //					dprintf("  into polygon #%d", polygon_index);
-					if (!TEST_RENDER_FLAG(polygon_index, _polygon_is_visible)) polygon_index= NONE; /* donÕt have transformed data, donÕt even try! */
+					if (!TEST_RENDER_FLAG(polygon_index, _polygon_is_visible)) polygon_index= NONE; /* donâ€™t have transformed data, donâ€™t even try! */
 					if ((destination.x-vertex->x)*(next_vertex->y-vertex->y) - (destination.y-vertex->y)*(next_vertex->x-vertex->x) <= 0) polygon_index= NONE;
 					if (polygon_index!=NONE && base_node_count<MAXIMUM_OBJECT_BASE_NODES) base_nodes[base_node_count++]= polygon_index_to_sorted_node[polygon_index];
 				}
@@ -877,7 +877,7 @@ void RenderPlaceObjsClass::build_aggregate_render_object_clipping_window(
 					first_window= window;
 				}
 				
-				/* advance left by one, then advance right until itÕs greater than left */
+				/* advance left by one, then advance right until itâ€™s greater than left */
 				if (++left<left_count) while (x0[left]>x1[right] && right<right_count) ++right;
 			}
 			else
