@@ -119,7 +119,8 @@ static const std::vector<ShellOptionsFlag> shell_options_flags {
 };
 
 static const std::vector<ShellOptionsString> shell_options_strings {
-	{"o", "output", "With -e, output to [file] and exit on quit", shell_options.output}
+	{"o", "output", "With -e, output to [file] and exit on quit", shell_options.output},
+	{"S", "seed", "Provide RNG seed in hex (1-FFFF)", shell_options.custom_seed}
 };
 
 bool ShellOptions::parse(int argc, char** argv)

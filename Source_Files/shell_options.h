@@ -26,6 +26,7 @@ struct ShellOptions {
 	std::vector<std::string> files;
 
 	std::string output;
+	std::string custom_seed;
 };
 
 extern ShellOptions shell_options;

@@ -2165,7 +2165,14 @@ static bool begin_game(
 			game_information.kill_limit = 0;
 			game_information.game_type= _game_of_kill_monsters;
 			game_information.game_options= _burn_items_on_death|_ammo_replenishes|_weapons_replenish|_monsters_replenish;
-			game_information.initial_random_seed= machine_tick_count();
+			game_information.initial_random_seed = machine_tick_count();
+			if (!shell_options.custom_seed.empty()) {
+				try {
+					uint16 seed = std::stoi(shell_options.custom_seed, nullptr, 16);
+					game_information.initial_random_seed = seed;
+				}
+				catch (...) {}
+			}
 			game_information.difficulty_level= get_difficulty_level();
 			std::fill_n(game_information.parameters, 2, 0);
 				
