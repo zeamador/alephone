@@ -254,6 +254,13 @@ void decrement_replay_speed(
 	if (replay.replay_speed > MINIMUM_REPLAY_SPEED) replay.replay_speed--;
 }
 
+void fast_forward_replay(
+	uint32 ticks)
+{
+	replay.queued_fast_forward = true;
+	// TODO handle ticks
+}
+
 int get_replay_speed()
 {
 	return replay.replay_speed;
@@ -291,6 +298,23 @@ bool input_controller(
 			{
 				static short phase= 0; /* When this gets to 0, update the world */
 
+				if (replay.queued_fast_forward) {
+					short flag_count = 150; // 5 seconds
+
+					if (!pull_flags_from_recording(flag_count))
+					{
+						if (replay.have_read_last_chunk)
+						{
+							assert(get_game_state() == _game_in_progress || get_game_state() == _switch_demo);
+							set_game_state(_switch_demo);
+						}
+					}
+					else
+					{
+						heartbeat_count += flag_count;
+					}
+					replay.queued_fast_forward = false;
+				}
 				/* Minimum replay speed is a pause. */
 				if(replay.replay_speed != MINIMUM_REPLAY_SPEED)
 				{
@@ -378,12 +402,12 @@ void save_recording_queue_chunk(
 {
 	uint8 *location;
 	uint32 last_flag, count, flag = 0;
-	int16 i, run_count, num_flags_saved, max_flags;
+	uint16 i, run_count, num_flags_saved, max_flags;
 	static uint8 *buffer= NULL;
 	ActionQueue *queue;
 	
-	// The data format is (run length (int16)) + (action flag (uint32))
-	int DataSize = sizeof(int16) + sizeof(uint32);
+	// The data format is (run length (uint16)) + (action flag (uint32))
+	int DataSize = sizeof(uint16) + sizeof(uint32);
 	
 	if (buffer == NULL)
 		buffer = new byte[RECORD_CHUNK_SIZE * DataSize];
@@ -406,6 +430,7 @@ void save_recording_queue_chunk(
 		
 		if (i && flag != last_flag)
 		{
+			// this flag differs, so save the last run
 			ValueToStream(location,run_count);
 			ValueToStream(location,last_flag);
 			count += DataSize;
@@ -414,6 +439,7 @@ void save_recording_queue_chunk(
 		}
 		else
 		{
+			// this flag matches the previous, keep counting
 			run_count++;
 		}
 		last_flag = flag;
@@ -427,10 +453,10 @@ void save_recording_queue_chunk(
 	
 	if (max_flags<RECORD_CHUNK_SIZE)
 	{
-		short end_indicator = END_OF_RECORDING_INDICATOR;
-		ValueToStream(location,end_indicator);
-		int32 end_flag = 0;
-		ValueToStream(location,end_flag);
+		run_count = END_OF_RECORDING_INDICATOR;
+		last_flag = 0;
+		ValueToStream(location,run_count);
+		ValueToStream(location,last_flag);
 		count += DataSize;
 		num_flags_saved += RECORD_CHUNK_SIZE-max_flags;
 	}
@@ -681,6 +707,30 @@ void rewind_recording(
 		
 		// Use the packed length here!!!
 		replay.header.length= SIZEOF_recording_header;
+	}
+}
+
+void rewind_replay(
+	void)
+{
+	if (replay.game_is_being_replayed)
+	{
+		FilmFile.SetPosition(SIZEOF_recording_header);
+
+		replay.valid = true;
+		replay.have_read_last_chunk = false;
+		assert(!replay.resource_data);
+		replay.resource_data = NULL;
+		replay.resource_data_size = 0l;
+		replay.film_resource_offset = NONE;
+
+		delete[] replay.fsread_buffer;
+		replay.fsread_buffer = new char[DISK_CACHE_SIZE];
+		assert(replay.fsread_buffer);
+
+		replay.location_in_cache = NULL;
+		replay.bytes_in_cache = 0;
+		replay.replay_speed = 1;
 	}
 }
 

@@ -55,6 +55,7 @@ struct replay_private_data {
 	bool valid;
 	struct recording_header header;
 	int16 replay_speed;
+	bool queued_fast_forward;
 	bool game_is_being_replayed;
 	bool game_is_being_recorded;
 	bool have_read_last_chunk;

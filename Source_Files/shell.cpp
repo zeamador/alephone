@@ -900,6 +900,20 @@ static void handle_game_key(const SDL_Event &event)
 				}
 			}
 		}
+		else if (input_preferences->key_bindings[5].count(sc))
+		{
+			// strafe right
+			if (!player_controlling_game()) {
+				fast_forward_replay(256);
+			}
+		}
+		else if (input_preferences->key_bindings[4].count(sc))
+		{
+			// strafe left
+			if (!player_controlling_game()) {
+				set_game_state(_revert_game);
+			}
+		}
 		else if (input_preferences->shell_key_bindings[_key_volume_up].count(sc))
 		{
 			changed_prefs = SoundManager::instance()->AdjustVolumeUp(Sound_AdjustVolume());

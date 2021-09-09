@@ -1324,6 +1324,32 @@ bool revert_game(
 	return successful;
 }
 
+bool revert_replay(
+	void)
+{
+	bool successful;
+
+	leaving_map();
+
+	assert(!revert_game_data.game_is_from_disk);
+
+	successful = new_game(dynamic_world->player_count, false, &revert_game_data.game_information, &revert_game_data.player_start,
+		&revert_game_data.entry_point);
+
+	rewind_replay();
+
+	if (successful)
+	{
+		update_interface(NONE);
+		ChaseCam_Reset();
+		ResetFieldOfView();
+		reset_messages();
+		ReloadViewContext();
+	}
+
+	return successful;
+}
+
 bool export_level(FileSpecifier& File)
 {
 	struct wad_header header;

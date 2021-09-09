@@ -352,6 +352,7 @@ struct low_level_shape_definition *get_low_level_shape_definition(short collecti
 /* ---------- prototypes/PREPROCESS_MAP_MAC.C */
 void setup_revert_game_info(struct game_data *game_info, struct player_start_data *start, struct entry_point *entry);
 bool revert_game(void);
+bool revert_replay(void);
 bool load_game(bool use_last_load);
 bool save_game(void);
 bool save_game_full_auto(bool inOverwriteRecent);
@@ -374,6 +375,7 @@ void wait_until_next_frame(void);
 void sync_heartbeat_count(void);
 void process_action_flags(short player_identifier, const uint32 *action_flags, short count);
 void rewind_recording(void);
+void rewind_replay(void);
 void stop_recording(void);
 void stop_replay(void);
 void move_replay(void);
@@ -381,6 +383,7 @@ void check_recording_replaying(void);
 bool has_recording_file(void);
 void increment_replay_speed(void);
 void decrement_replay_speed(void);
+void fast_forward_replay(uint32 ticks);
 void reset_recording_and_playback_queues(void);
 uint32 parse_keymap(void);
 

@@ -1173,7 +1173,16 @@ bool idle_game_state(uint32 time)
 
 				case _revert_game:
 					/* Reverting while in the update loop sounds sketchy.. */
-					if(revert_game())
+					bool success;
+					if (game_state.user == _replay)
+					{
+						success = revert_replay();
+					}
+					else
+					{
+						success = revert_game();
+					}
+					if(success)
 					{
 						game_state.state= _game_in_progress;
 						game_state.phase = 15 * MACHINE_TICKS_PER_SECOND;
