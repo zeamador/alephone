@@ -350,7 +350,7 @@ struct low_level_shape_definition *get_low_level_shape_definition(short collecti
 
 
 /* ---------- prototypes/PREPROCESS_MAP_MAC.C */
-void setup_revert_game_info(struct game_data *game_info, struct player_start_data *start, struct entry_point *entry);
+void setup_revert_game_info(struct game_data *game_info, struct player_start_data *start, struct entry_point *entry, uint16 number_of_players);
 bool revert_game(void);
 bool revert_replay(void);
 bool load_game(bool use_last_load);

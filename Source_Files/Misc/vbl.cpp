@@ -719,14 +719,6 @@ void rewind_replay(
 
 		replay.valid = true;
 		replay.have_read_last_chunk = false;
-		assert(!replay.resource_data);
-		replay.resource_data = NULL;
-		replay.resource_data_size = 0l;
-		replay.film_resource_offset = NONE;
-
-		delete[] replay.fsread_buffer;
-		replay.fsread_buffer = new char[DISK_CACHE_SIZE];
-		assert(replay.fsread_buffer);
 
 		replay.location_in_cache = NULL;
 		replay.bytes_in_cache = 0;

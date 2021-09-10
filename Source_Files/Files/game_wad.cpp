@@ -144,7 +144,7 @@ struct revert_game_info
 {
 	bool game_is_from_disk;
 	struct game_data game_information;
-	struct player_start_data player_start;
+	struct player_start_data player_starts[MAXIMUM_NUMBER_OF_PLAYERS];
 	struct entry_point entry_point;
 	FileSpecifier SavedGame;
 };
@@ -540,7 +540,7 @@ bool new_game(
 		/* we need to alert the function that reverts the game of the game setup so that
 		 * new game can be called if the user wants to revert later.
 		 */
-		setup_revert_game_info(game_information, player_start_information, entry_point);
+		setup_revert_game_info(game_information, player_start_information, entry_point, number_of_players);
 		
 		// Reset the player queues (done here and in load_game)
 		reset_action_queues();
@@ -1264,13 +1264,16 @@ bool load_game_from_file(FileSpecifier& File, bool run_scripts)
 }
 
 void setup_revert_game_info(
-	struct game_data *game_info, 
-	struct player_start_data *start, 
-	struct entry_point *entry)
+	struct game_data *game_info,
+	struct player_start_data *starts,
+	struct entry_point *entry,
+	uint16 number_of_players)
 {
 	revert_game_data.game_is_from_disk = false;
 	obj_copy(revert_game_data.game_information, *game_info);
-	obj_copy(revert_game_data.player_start, *start);
+	for (uint16 i = 0; i < number_of_players; i++) {
+		obj_copy(revert_game_data.player_starts[i], starts[i]);
+	}
 	obj_copy(revert_game_data.entry_point, *entry);
 }
 
@@ -1305,7 +1308,7 @@ bool revert_game(
 	else
 	{
 		/* This was the totally evil line discussed above. */
-		successful= new_game(1, false, &revert_game_data.game_information, &revert_game_data.player_start, 
+		successful= new_game(1, false, &revert_game_data.game_information, revert_game_data.player_starts, 
 			&revert_game_data.entry_point);
 			
 		/* And rewind so that the last player is used. */
@@ -1333,7 +1336,7 @@ bool revert_replay(
 
 	assert(!revert_game_data.game_is_from_disk);
 
-	successful = new_game(dynamic_world->player_count, false, &revert_game_data.game_information, &revert_game_data.player_start,
+	successful = new_game(dynamic_world->player_count, false, &revert_game_data.game_information, revert_game_data.player_starts,
 		&revert_game_data.entry_point);
 
 	rewind_replay();
